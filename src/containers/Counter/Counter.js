@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
+import * as actionTypes from "../../store/actions"
 
 class Counter extends Component {
     render () {
@@ -14,7 +15,7 @@ class Counter extends Component {
                 <CounterControl label="Add 5" clicked={() => this.props.onAddCounter(5)}  />
                 <CounterControl label="Subtract 5" clicked={() => this.props.onSubtractCounter(5)}  />
                 <hr />
-                <button onClick={this.props.onStoreData}>Store data</button>
+                <button onClick={() => this.props.onStoreData(this.props.ctr)}>Store data</button>
                 <ul>
                     {this.props.strResult.map(result =>{
                         return(
@@ -28,17 +29,17 @@ class Counter extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    ctr: state.counter,
-    strResult: state.result
+    ctr: state.ctr.counter,
+    strResult: state.rslt.result
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    onIncrementCounter: () => dispatch({type: "INCREMENT"}),
-    onDecrementCounter: () => dispatch({type: "DECREMENT"}),
-    onAddCounter: (value) => dispatch({type: "ADD", value}),
-    onSubtractCounter: (value) => dispatch({type: "SUB", value}),
-    onStoreData: () => dispatch({type: "STORE_RESULT"}),
-    onDeleteData: (resultId) => dispatch({type: "DELETE_RESULT", resultId})
+    onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
+    onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
+    onAddCounter: (value) => dispatch({type: actionTypes.ADD, value}),
+    onSubtractCounter: (value) => dispatch({type: actionTypes.SUBTRACT, value}),
+    onStoreData: (counter) => dispatch({type: actionTypes.STORE_RESULT, counter}),
+    onDeleteData: (resultId) => dispatch({type: actionTypes.DELETE_RESULT, resultId})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
